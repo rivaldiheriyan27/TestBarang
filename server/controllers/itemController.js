@@ -1,14 +1,12 @@
 const {User, Item } = require("../models/index");
+const { Op } = require("sequelize");
 
 class storeItem{
     static async getItems(req,res,next){
         try{
             const { search, page, size } = req.query;
-
             const limit = size ? +size : 5;
             const offset = page ? (+page - 1) * limit : 0;
-
-            console.log(search)
 
             let option = {
                 limit,
@@ -17,21 +15,17 @@ class storeItem{
                 where: {},
               };
 
-              console.log("baru" + option)
+              console.log("baru" + option.where)
           
-            //   if (search) {
-            //     option.where[Op.and] = [
-            //       { itemName: { [Op.iLike]: `%${search}%` } },
-            //     ];
-            //   }
+                //   if (search) {
+                //     option.where[Op.and] = [
+                //       { itemName: { [Op.iLike]: `%${search}%` } },
+                //     ];
+                //   }
 
-            if (search) {
-                option.where =  {
-                itemName: {
-                   [Op.eq]: `%${search}%`
+                if (search) {
+                    option.where[Op.or] = [{ itemName: { [Op.iLike]: `%${search}%` } }];
                 }
-              }
-            }
 
               console.log("ini baru")
 
@@ -52,6 +46,7 @@ class storeItem{
                 },
               });
         }catch(error){
+            console.log(error, "ini eror boy")
             next(error)
         }
     }
