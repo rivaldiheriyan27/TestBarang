@@ -1,0 +1,10 @@
+[
+    {
+        "itemName":"Gayung",
+        "purchasePrice" :50000,
+        "sellPrice":60000,
+        "stock":50,
+        "photo":"./client/assets/Gayung.jpg",
+        "UserId":1
+    }
+]
