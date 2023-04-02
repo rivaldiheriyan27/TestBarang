@@ -54,7 +54,7 @@ class storeItem{
     static async getItem(req,res,next){
         try{
             const {id} = req.params;
-            console.log(id)
+            console.log(id,"ini id")
 
             const dataItem = await Item.findByPk(id,{
                 attributes:{
@@ -76,54 +76,56 @@ class storeItem{
     }
 
     static async createItem(req,res,next){
-        try{
-            const { path } = req.file;
-            const {id} = req.user;
-            const {itemName,purchasePrice,sellPrice,stock } = req.body
-            let input = {
-                itemName,
-                purchasePrice,
-                sellPrice,
-                stock,
-                photo : path,
-                UserId : id
-            }
-
-            console.log(input)
-            
+        try {
+            const { id } = req.user;
+            const { itemName, purchasePrice, sellPrice, stock,photo } = req.body;
+            console.log(itemName, purchasePrice, sellPrice, stock,photo,"ini paramter dikirim")
+            console.log(req.file, "file");
+        
             const checkItem = await Item.findOne({
-                where:{
-                    itemName
-                }
-            })
-
-            if(checkItem){
-                throw { name : "Item has been registered"}
+              where: {
+                itemName,
+              },
+            });
+        
+            if (checkItem) {
+              throw { name: 'Item has been registered' };
             }
+        
+            const url = req.protocol + "://" + req.get("host") + "/uploads/" + req.file.filename;
+            console.log(url)
 
-            const dataItem = await Item.create(input)
-
+            const dataItem = await Item.create({
+              itemName,
+              purchasePrice,
+              sellPrice,
+              stock,
+              photo: url,
+              UserId: id,
+            });
+        
             res.status(201).json({
-                message:`Item ${input.itemName} has been Registered`
-            })
-        }catch(error){
-            next(error)
-        }
+              message: `Item ${itemName} has been Registered`,
+            });
+          } catch (error) {
+            console.log(error)
+            next(error);
+          }
     }
 
     static async putItem(req,res,next){
         try{
             const {id} = req.params;
-            const {itemName,purchasePrice,sellPrice,stock } = req.body
+            const { itemName, purchasePrice, sellPrice, stock } = req.body;
 
-            let input = {
-                itemName,
-                purchasePrice,
-                sellPrice,
-                stock,
-            }
+            console.log("ini di put")
 
-            console.log(id)
+            // const dataTerbaru = {
+            //     itemName : itemName,
+            //     purchasePrice: purchasePrice,
+            //     sellPrice : sellPrice,
+            //     stock : stock,
+            // }
 
             const dataItem = await Item.findByPk(id,{
                 attributes:{
@@ -131,15 +133,24 @@ class storeItem{
                 }
             })
 
+            // console.log(dataItem,"ini datanya")
+
+            // console.log(id, ">>>" , dataTerbaru)
+
             if(!dataItem){
                 throw { name : "Not Found The Item"}
             }
 
             await Item.update(
-                input,
+                {
+                    itemName : itemName,
+                    purchasePrice: purchasePrice,
+                    sellPrice : sellPrice,
+                    stock : stock,
+                },
                 {
                   where: {
-                    id
+                    id,
                   },
                 }
             );
@@ -148,6 +159,7 @@ class storeItem{
                 message: `Item with id: ${id} has been updated`
             });
         }catch(error){
+            console.log(error)
             next(error)
         }
     }
@@ -165,6 +177,12 @@ class storeItem{
             if(!dataItem){
                 throw { name : "Not Found The Item"}
             }
+
+            await Item.destroy({
+                where: {
+                  id,
+                },
+            });
 
             res.status(200).json({
                 message: `Item with id: ${id} has been deleted`

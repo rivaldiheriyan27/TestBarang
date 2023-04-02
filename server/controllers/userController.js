@@ -16,9 +16,6 @@ class userController{
             const checkDataUser = await User.findOne({ 
                 where:{
                     email:email,
-                    deletedAt: {
-                        [Op.is]: null
-                    }
                 }
             })
 
@@ -54,15 +51,14 @@ class userController{
             const user = await User.findOne({
                 where:{
                     email:email,
-                    deletedAt: {
-                        [Op.is]: null
-                    }
                 }
             });
 
             if (!user) {
                 throw {name :"Email or Password is invalid"};
             }
+
+            console.log(user)
 
             const validatePassword = compareHash(
                 password,
@@ -87,7 +83,8 @@ class userController{
                     accesToken:token,
                     email:user.email,
                     role:user.role,
-                    name:user.name
+                    name:user.name,
+                    id:user.id
                 }
             })
         }catch(err){

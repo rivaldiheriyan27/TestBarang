@@ -4,7 +4,7 @@
         "purchasePrice" :50000,
         "sellPrice":60000,
         "stock":50,
-        "photo":"./client/assets/Gayung.jpg",
+        "photo":"https://www.shutterstock.com/image-photo/plastic-water-ladle-long-handle-260nw-1823570615.jpg",
         "UserId":1
     }
 ]
