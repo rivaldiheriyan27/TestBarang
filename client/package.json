@@ -2,6 +2,7 @@
   "name": "client",
   "version": "0.1.0",
   "private": true,
+  "proxy" : "https://155f-111-95-109-219.ap.ngrok.io",
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.3",
     "@testing-library/jest-dom": "^5.16.5",

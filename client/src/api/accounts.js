@@ -1,6 +1,7 @@
 import axios from 'axios'
 
-const baseUrl = "http://localhost:4000";
+// const baseUrl = "http://localhost:4000"
+const baseUrl = "https://4038-111-95-109-219.ap.ngrok.io"
 
 export const loginUser = async request => {
     try {

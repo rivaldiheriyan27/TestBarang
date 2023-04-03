@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const baseUrl = "http://localhost:4000"
+// const baseUrl = "http://localhost:4000"
+const baseUrl = "https://4038-111-95-109-219.ap.ngrok.io"
 
 export const dataItems = async (token,searchItemName, page) => {
     try{
@@ -14,6 +15,8 @@ export const dataItems = async (token,searchItemName, page) => {
         const dataBaru = await axios.get(url,{
             headers: {
                 access_token: `${token}`,
+                "Content-Type": "application/json",
+                Accept: "application/json",
             },
           })
 
@@ -31,6 +34,8 @@ export const getItemById = async({token,id}) => {
         const hasil =  await axios.get(`${baseUrl}/item/${id}`,{
             headers: {
                 access_token: `${token}`,
+                "Content-Type": "application/json",
+                Accept: "application/json",
             },
         })
 
@@ -54,6 +59,8 @@ export const createItem = async ({ newData, token }) => {
       const { data } = await axios.post(`${baseUrl}/uploads`, formData, {
         headers: {
             access_token: `${token}`,
+            "Content-Type": "application/json",
+             Accept: "application/json",
           },
       });
       let mainImg = data.shift();
@@ -70,6 +77,8 @@ export const createItem = async ({ newData, token }) => {
         {
           headers: {
             access_token: `${token}`,
+            "Content-Type": "application/json",
+              Accept: "application/json",
           },
         }
       );
@@ -94,6 +103,8 @@ export const updateItem = async request => {
         {
             headers: {
                 access_token: `${request.input.token}`,
+                "Content-Type": "application/json",
+                 Accept: "application/json",
             },
         },
       )
@@ -109,6 +120,8 @@ export const deleteItemApi = async request => {
         return await axios.delete(`${baseUrl}/item/${request.id}`,{
             headers: {
                 access_token: `${request.token}`,
+                "Content-Type": "application/json",
+                Accept: "application/json",
             },
         })
     } catch (error) {
